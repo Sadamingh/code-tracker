@@ -59,7 +59,7 @@ $.ajax({
                 for(var titleIdx in titleArr) {
                     title += titleArr[titleIdx].charAt(0).toUpperCase() + titleArr[titleIdx].slice(1) + " "
                 }
-                $('#content').append("<span class=\"badge text-bg-primary\">" + titleNum + "</span> " + title)
+                $('#content').append("<span class=\"badge text-bg-primary\">" + titleNum + "</span> <a href=\"https://github.com/Sadamingh/code-tracker/blob/main/" + arr[idx].path + "\">" + title + "</a>")
                 $('#content').append("</br>")
             }
         }
