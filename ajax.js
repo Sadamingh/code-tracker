@@ -59,8 +59,8 @@ $.ajax({
                 for(var titleIdx in titleArr) {
                     title += titleArr[titleIdx].charAt(0).toUpperCase() + titleArr[titleIdx].slice(1) + " "
                 }
-                $('#content').append("<div class=\"col-4\"><span class=\"badge text-bg-primary\">" + titleNum + 
-                 "</span> </div><div class=\"col-4\"> " + title + "</div> <div class=\"col-4\">" + 
+                $('#content').append("<div class=\"col-2\"><span class=\"badge text-bg-primary\">" + titleNum + 
+                 "</span> </div><div class=\"col-8\"> " + title + "</div> <div class=\"col-2\">" + 
                  "<a href=\"https://github.com/Sadamingh/code-tracker/blob/main/" + 
                  arr[idx].path + "\">link</a></div>")
             }
