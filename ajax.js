@@ -20,7 +20,7 @@ $.ajax({
     type: "GET",
     cache: false,
     url: "https://api.github.com/repos/Sadamingh/code-tracker/git/trees/main",
-    headers: {'Authorization': ${{ secrets.TOKEN }} },
+    headers: {'Authorization': '${{ secrets.TOKEN }}' },
     dataType: "json",
     success: function(data) {
         var arr = data.tree
