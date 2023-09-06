@@ -5,14 +5,40 @@ $.ajax({
     cache: false,
     url: 'https://leetcode-stats-api.herokuapp.com/RotRaider',
     dataType: "json",
-    // beforeSend: function(){
-    //     $('#loading-image').show();
-    // },
-    // complete: function(){
-    //     $('#loading-image').hide();
-    // },
     success: function(data) {
-        $('#output').append(data.status + "<br/>" + data.ranking)
+        var easy_perc = data.easySolved / data.totalEasy * 100
+        var easy_count = data.easySolved
+        $('#easycount').append(`<h5>Easy</h5><div class=\"progress\">
+                                <div class=\"progress-bar progress-bar-striped progress-bar-animated bg-success\" role=\"progressbar\" aria-valuenow=\"` + String(easy_perc) + `
+                                \" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: ` + String(easy_perc) + `%\"></div>` + String(easy_count) + "</div>")
+    }
+});
+
+$.ajax({
+    type: 'GET',
+    cache: false,
+    url: 'https://leetcode-stats-api.herokuapp.com/RotRaider',
+    dataType: "json",
+    success: function(data) {
+        var medium_perc = data.mediumSolved / data.totalMedium * 100
+        var medium_count = data.mediumSolved
+        $('#mediumcount').append(`<h5>Medium</h5><div class=\"progress\">
+                                <div class=\"progress-bar progress-bar-striped progress-bar-animated bg-warning\" role=\"progressbar\" aria-valuenow=\"` + String(medium_perc) + `
+                                \" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: ` + String(medium_perc) + `%\"></div>` + String(medium_count) + "</div>")
+    }
+});
+
+$.ajax({
+    type: 'GET',
+    cache: false,
+    url: 'https://leetcode-stats-api.herokuapp.com/RotRaider',
+    dataType: "json",
+    success: function(data) {
+        var hard_perc = data.hardSolved / data.totalHard * 100
+        var hard_count = data.hardSolved
+        $('#hardcount').append(`<h5>Hard</h5><div class=\"progress\">
+                                <div class=\"progress-bar progress-bar-striped progress-bar-animated bg-danger\" role=\"progressbar\" aria-valuenow=\"` + String(hard_perc) + `
+                                \" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: ` + String(hard_perc) + `%\"></div>` + String(hard_count) + "</div>")
     }
 });
 
@@ -38,4 +64,19 @@ $.ajax({
             }
         }
     }
+});
+
+$("#click-me").click(function () {
+
+    $.ajax({
+        success: function (data) {                               
+            console.log(data);   
+            $('#info-modal').addClass("show"); 
+        },
+        async: true
+    });    
+});
+    
+$(".modal-dialog .close").click(function(){
+    $(this).closest(".modal-dialog").removeClass("show"); 
 });
