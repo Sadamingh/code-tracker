@@ -10,10 +10,4 @@ class Solution:
             digiList.append(x % 10)
             x = x // 10
         
-        if digiList == digiList[::-1]:
-            return True
-        
-        return False
-
-
-            
+        return digiList == digiList[::-1]
