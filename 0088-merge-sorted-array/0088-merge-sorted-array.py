@@ -10,8 +10,6 @@ class Solution:
 
         while j >= 0:
 
-            print(nums1, nums2)
-
             if i >= 0 and nums1[i] >= nums2[j]:
                 nums1[p] = nums1[i]
                 nums1[i] = 0
