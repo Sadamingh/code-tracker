@@ -16,6 +16,8 @@ class Solution:
         leftDepth = self.maxDepth(node.left)
         rightDepth = self.maxDepth(node.right)
 
+        # This is a modified version of the depth algo for tree
+        # It propagates -1 up to the root if the tree is not balanced
         if leftDepth == -1 or rightDepth == -1:
             return -1
 
