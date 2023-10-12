@@ -42,6 +42,32 @@ $.ajax({
     }
 });
 
+// $.ajax({
+//     type: "GET",
+//     cache: false,
+//     url: "https://api.github.com/repos/Sadamingh/code-tracker/git/trees/main",
+//     headers: {'Authorization': '${{ secrets.TOKEN }}' },
+//     dataType: "json",
+//     success: function(data) {
+//         var arr = data.tree
+//         for(var idx in arr) {
+//             if(arr[idx].type === "tree") {
+//                 let title = "";
+//                 let titleArr = arr[idx].path.split("-")
+//                 let titleNum = titleArr[0]
+//                 titleArr.shift()
+//                 for(var titleIdx in titleArr) {
+//                     title += titleArr[titleIdx].charAt(0).toUpperCase() + titleArr[titleIdx].slice(1) + " "
+//                 }
+//                 $('#content').append("<div class=\"col-2\"><span class=\"badge text-bg-primary\">" + titleNum + 
+//                  "</span> </div><div class=\"col-8\"> " + title + "</div> <div class=\"col-2\">" + 
+//                  "<a href=\"https://github.com/Sadamingh/code-tracker/blob/main/" + 
+//                  arr[idx].path + "\">link</a></div>")
+//             }
+//         }
+//     }
+// });
+
 $.ajax({
     type: "GET",
     cache: false,
@@ -49,24 +75,67 @@ $.ajax({
     headers: {'Authorization': '${{ secrets.TOKEN }}' },
     dataType: "json",
     success: function(data) {
-        var arr = data.tree
+        var arr = data.tree;
         for(var idx in arr) {
             if(arr[idx].type === "tree") {
                 let title = "";
-                let titleArr = arr[idx].path.split("-")
-                let titleNum = titleArr[0]
-                titleArr.shift()
+                let titlePath = arr[idx].path
+                let titleArr = arr[idx].path.split("-");
+                let titleNum = titleArr[0];
+                titleArr.shift();
                 for(var titleIdx in titleArr) {
-                    title += titleArr[titleIdx].charAt(0).toUpperCase() + titleArr[titleIdx].slice(1) + " "
+                    title += titleArr[titleIdx].charAt(0).toUpperCase() + titleArr[titleIdx].slice(1) + " ";
                 }
-                $('#content').append("<div class=\"col-2\"><span class=\"badge text-bg-primary\">" + titleNum + 
-                 "</span> </div><div class=\"col-8\"> " + title + "</div> <div class=\"col-2\">" + 
-                 "<a href=\"https://github.com/Sadamingh/code-tracker/blob/main/" + 
-                 arr[idx].path + "\">link</a></div>")
+
+                const $row = $('<div>', { class: 'row' });
+                $row.append($('<div>', { class: 'col-2' }).append($('<span>', { class: 'badge text-bg-primary' }).text(titleNum)));
+                $row.append($('<div>', { class: 'col-9 hoverElement' }).css('position', 'relative').append($('<span>').text(title)));
+
+                const $preElement = $('<pre>', { class: 'content' });
+                const $codeElement = $('<code>', { class: 'language-python' });
+                const $overlay = $('<div>', { class: 'overlay' });
+
+                $preElement.append($codeElement);
+                $row.find('.hoverElement').append($preElement).append($overlay);
+                $row.append($('<div>', { class: 'col-1' }).append($('<a>', { href: 'https://github.com/Sadamingh/code-tracker/blob/main/' + arr[idx].path }).text('link')));
+
+                $('#content').append($row);
+                $preElement.hide();
+
+                $row.find('span').on('mousedown', function() {
+                    $preElement.show();
+                    // $overlay.show();
+                    const url = 'https://raw.githubusercontent.com/Sadamingh/code-tracker/main/' + titlePath + '/' +  titlePath + '.py'
+                    $.get(url, function(data) {
+                        $codeElement.text(data);
+                        Prism.highlightElement($codeElement[0]);
+                    }).fail(function() {
+                        $preElement.hide();
+                        // $overlay.hide();
+                    });
+                });
+
+                // $hoverElement.on('mouseleave', function() {
+                //     if (!$preElement.is(':hover')) {
+                //         $preElement.hide();
+                //         // $overlay.hide();
+                //     }
+                // });
+
+                $preElement.on('mousedown', function() {
+                    $preElement.hide();
+                    // $overlay.hide();
+                });
+
+                $preElement.on('mouseleave', function() {
+                    $preElement.hide();
+                    // $overlay.hide();
+                });
             }
         }
     }
 });
+
 
 $("#click-me").click(function () {
 
