@@ -15,8 +15,8 @@ class Solution:
         if node.left or node.right:
             path += str(node.val) + "->"
 
-        self.getPaths(node.left, path, pathList) if node.left else None
-        self.getPaths(node.right, path, pathList) if node.right else None
+        self.getPaths(node.left, path, pathList)
+        self.getPaths(node.right, path, pathList)
 
         if not node.left and not node.right:
             path += str(node.val)
